@@ -19,7 +19,7 @@ class Dependencia extends Model
 
     public function areas()
     {
-        return $this->hasMany(Area::class);
+        return $this->hasMany(Area::class, 'id_dependencia');
     }
     
 }

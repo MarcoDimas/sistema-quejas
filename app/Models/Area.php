@@ -18,7 +18,7 @@ class Area extends Model
 
     public function dependencia()
     {
-        return $this->belongsTo(Dependencia::class);
+        return $this->belongsTo(Dependencia::class, 'id_dependencia');
     }
 
     public function quejas()

@@ -1,0 +1,779 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html,
+body {
+    overflow: hidden;
+}
+
+
+:root {
+    --red: #dc3545;
+    --white: #ffffff;
+    --black: #000000;
+    --blue: #1946bb;
+    --light-blue: #4b73f0;
+    --guinda: #4A001F;
+    --rosaClaro: #FFC3D0;
+    --rosaAlert: #FFE6EC;
+    --morado: #6A0F49;
+    --orage: #ffc107;
+    --warning: #F9E8C6;
+    --light-orange: #ffaf17;
+    --green: #198754;
+    --primary-text: #050505;
+    --secondary-text: #65676b;
+    --input-gray: #f0f2f5;
+    --gray-00: #f5f6f7;
+    --gray-05: #f2f3f5;
+    --gray-10: #ebedf0;
+    --gray-20: #dadde1;
+    --gray-25: #ccd0d5;
+    --gray-30: #bec3c9;
+    --gray-45: #8d949e;
+    --gray-70: #606770;
+    --gray-80: #444950;
+    --gray-90: #303338;
+    --gray-100: #1c1e21;
+    --lightblue-alpha: rgba(75, 115, 240, 0.1);
+    --black-alpha-05: rgba(0, 0, 0, 0.05);
+    --black-alpha-10: rgba(0, 0, 0, 0.1);
+    --black-alpha-15: rgba(0, 0, 0, 0.15);
+    --black-alpha-20: rgba(0, 0, 0, 0.2);
+    --black-alpha-30: rgba(0, 0, 0, 0.3);
+    --black-alpha-40: rgba(0, 0, 0, 0.4);
+    --black-alpha-50: rgba(0, 0, 0, 0.5);
+    --black-alpha-60: rgba(0, 0, 0, 0.6);
+    --black-alpha-80: rgba(0, 0, 0, 0.8);
+    --overlay-alpha-80: rgba(244, 244, 244, 0.8);
+    --shadow-1: rgba(0, 0, 0, 0.1);
+    --shadow-2: rgba(0, 0, 0, 0.2);
+    --shadow-5: rgba(0, 0, 0, 0.5);
+    --shadow-8: rgba(0, 0, 0, 0.8);
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    /* border:1px solid red; */
+}
+
+a,
+a:link,
+a:hover,
+a:visited,
+a:focus-visible,
+a.menu-items {
+    text-decoration: none;
+}
+
+
+/*------------------------------ Textos Basado Tamaño ----------------------- */
+
+.text-mega {
+    font-size: 2rem;
+}
+
+.text-big {
+    font-size: 1.62rem;
+}
+
+.text-medium {
+    font-size: 1.18rem !important;
+}
+
+.text {
+    font-size: 1rem !important;
+}
+
+.text-small {
+    font-size: 13px;
+}
+
+/*------------------------------ Texto primario y secundario ----------------------- */
+
+.text-primary {
+    color: var(--primary-text) !important;
+}
+
+.text-secondary {
+    color: var(--secondary-text) !important;
+}
+
+
+/*------------------------------ Textos de tipo negritas  ----------------------- */
+
+.text-semibold {
+    font-weight: 500;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.text-bolder {
+    font-weight: 900;
+}
+
+
+/*------------------------------ textos de colores ----------------------- */
+
+.text-guinda {
+    color: var(--guinda);
+}
+
+.text-morado {
+    color: var(--morado);
+}
+
+.text-gray {
+    color: var(--gray-45)
+}
+
+.text-light-blue {
+    color: var(--light-blue);
+}
+
+.text-orange {
+    color: var(--orage);
+}
+
+.text-light-orange {
+    color: var(--light-orange);
+}
+
+.text-red {
+    color: var(--red);
+}
+
+.text-blue {
+    color: var(--blue);
+
+}
+
+
+/*------------------------------Fonts ----------------------- */
+
+.GibsonBold {
+    font-family: 'Gibson-Bold';
+}
+
+.GibsonBoldItalic {
+    font-family: 'Gibson-BoldItalic';
+}
+
+.GibsonBook {
+    font-family: 'Gibson-Book';
+}
+
+.GibsonBookItalic {
+    font-family: 'Gibson-BookItalic';
+}
+
+.GibsonHeavy {
+    font-family: 'Gibson-Heavy';
+}
+
+.GibsonHeavyItalic {
+    font-family: 'Gibson-HeavyItalic';
+}
+
+.GibsonItalic {
+    font-family: 'Gibson-Italic';
+}
+
+.GibsonLight {
+    font-family: 'Gibson-Light';
+}
+
+.GibsonLightItalic {
+    font-family: 'Gibson-LightItalic';
+}
+
+.GibsonMedium {
+    font-family: 'Gibson-Medium';
+}
+
+.GibsonMediumItalic {
+    font-family: 'Gibson-MediumItalic';
+}
+
+.GibsonRegular {
+    font-family: 'Gibson-Regular';
+}
+
+.GibsonSemiBold {
+    font-family: 'Gibson-SemiBold';
+}
+
+.GibsonSemiBoldItalic {
+    font-family: 'Gibson-SemiBoldItalic';
+}
+
+.GibsonThin {
+    font-family: 'Gibson-Thin';
+}
+
+.GibsonThinItalic {
+    font-family: 'Gibson-ThinItalic';
+}
+
+/* --------------Color Fonts--------------------------------------------- */
+.text-guinda {
+    color: var(--guinda);
+}
+
+.text-morado {
+    color: var(--morado);
+}
+
+.text-gray {
+    color: var(--gray-45)
+}
+
+.text-light-blue {
+    color: var(--light-blue);
+}
+
+.text-orange {
+    color: var(--orage);
+}
+
+.text-light-orange {
+    color: var(--light-orange);
+}
+
+.text-red {
+    color: var(--red);
+}
+
+.text-blue {
+    color: var(--blue);
+
+}
+
+/*------------------------- Estilos Header------------------------------- */
+
+.logo-header {
+    width: 160px;
+    height: 75px;
+}
+
+.logo-headerG {
+    height: 75px;
+}
+
+.boderBottom--Rosa {
+    border-bottom: 5px solid var(--rosaClaro);
+}
+
+.bi {
+    font-size: 2em;
+    color: #4A001F;
+
+}
+
+/* ---------------------Estilos Menú--------------------------------- */
+.menuLateral {
+    height: auto;
+    width: 300px;
+}
+
+.content {
+    border-left: 2px solid var(--gray-20);
+}
+
+.imagenUser {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.subMenu {
+    display: none;
+}
+
+.menu-items {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 15px;
+    color: var(--gray-45);
+    font-weight: 700;
+}
+
+.menu-items:hover {
+    background-color: var(--guinda);
+    color: white;
+    stroke: white;
+}
+
+.bis {
+
+    font-size: 25px;
+    color: #4A001F;
+    justify-content: center;
+}
+
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.nombre {
+    margin-bottom: 80pX;
+}
+
+.menu-header i {
+    font-size: 32px;
+}
+
+
+.icon_btn {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    cursor: pointer;
+    color: var(--gray-70);
+    flex: none;
+
+}
+
+.icon_btn:hover {
+    background-color: white;
+    color: #4A001F
+}
+
+/*-----------------------Estilos de Carga de extractos------------------------------------*/
+.borderBottom--Guinda {
+    border-bottom: 2px solid var(--morado);
+}
+
+/*----------------- Login--------------- */
+
+.containerLogin {
+    margin-top: 7em;
+}
+
+.bgGuinda {
+    background-color: #4A001F;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+}
+
+.imagenLogo {
+    width: 300px;
+}
+
+.card {
+    border-radius: 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+}
+
+.btn-Guinda {
+    color: #fff !important;
+    background-color: #4A001F !important;
+    border-color: #4A001F !important;
+}
+
+.btn-lg {
+    --bs-btn-padding-y: 0.5rem;
+    --bs-btn-padding-x: 5rem !important;
+    --bs-btn-font-size: 1.25rem;
+    --bs-btn-border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+    margin-right: 5em;
+}
+
+.btn-tamaño {
+    --bs-btn-padding-y: 0.5rem;
+    --bs-btn-padding-x: 1.3rem !important;
+}
+
+
+/*-----------------------Inicio------------------------------------*/
+
+.result-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.loaderGif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loader-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Ajusta la opacidad según tus necesidades */
+    z-index: 9999;
+}
+
+#loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.card-body_welcome {
+    height: 100px;
+    background-color: var(--gray-10);
+
+}
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    cursor: pointer;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: white;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--morado);
+    cursor: pointer;
+}
+
+/* Pagination */
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+.custom-pagination .pagination .page-link {
+    color: black;
+}
+
+.custom-pagination .pagination .page-link:hover {
+    color: white;
+    background-color: #4A001F;
+}
+
+.custom-pagination .pagination .page-item.active .page-link {
+    color: white;
+    background-color: #4A001F;
+    border-color: #4A001F;
+}
+
+/* Vista Usuario */
+.fila-boton {
+    margin-right: 90px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer !important;
+}
+
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+    clear: both;
+    font-weight: 400;
+    color: var(--bs-dropdown-link-color);
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    border-radius: var(--bs-dropdown-item-border-radius,0);
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------Responsivo-------------------- */
+/* // XX-Large devices (larger desktops, 1400px and up) */
+
+@media (min-width: 2000px) {
+    .containerLogin {
+        margin-top: 20em;
+    }
+}
+
+@media (min-width: 1950px) {
+    .containerLogin {
+        margin-top: 18em;
+    }
+}
+
+@media (min-width: 1900px) {
+    .containerLogin {
+        margin-top: 17em;
+    }
+
+    .boton {
+        margin-top: 20em;
+    }
+
+}
+
+@media (max-width:1500px) {
+    .fila-boton {
+        margin-right: 80px;
+    }
+}
+
+@media (max-width: 1400px) {
+    /* .containerLogin {
+        margin-top: 15em;
+    } */
+
+    .boton {
+        margin-top: 20em;
+    }
+
+    .fila-boton {
+        margin-right: 65px;
+    }
+}
+
+@media (max-width: 1370px) {
+    .imagenUser {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+    }
+
+    .fila-boton {
+        margin-right: 60px;
+    }
+
+    .menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer !important;
+    }
+
+    .menu-items {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+        padding: 10px 15px;
+        border-radius: 15px;
+        color: var(--gray-45);
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer !important;
+    }
+
+
+
+    .text {
+        font-size: 13px !important;
+    }
+
+    .bis {
+        font-size: 20px;
+    }
+
+    .boton {
+        margin-top: 135px;
+    }
+
+    .icon_btn {
+        margin-bottom: 15px;
+    }
+
+    .usuarios {
+        height: 400px;
+        overflow: auto;
+    }
+    .cursor{
+        cursor: pointer !important;
+    }
+
+
+}
+
+
+/* // X-Large devices (large desktops, 1200px and up) */
+
+@media (max-width: 1200px) {
+    .icon_btn {
+        margin-bottom: 15px;
+    }
+
+    .loaderGif {
+        width: 350px;
+        height: 350px;
+    }
+
+    .fila-boton {
+        margin-right: 25px;
+    }
+
+
+}
+
+
+
+
+/* // Large devices (desktops, 992px and up) */
+
+@media (max-width: 992px) {
+    .titulo {
+        width: 90%;
+    }
+
+    .loaderGif {
+        width: 300px;
+        height: 300px;
+    }
+
+    .fila-boton {
+        margin-right: 15px;
+    }
+}
+
+
+
+
+
+/* // Large devices iphone 12 pro (desktops, 992px and up) */
+
+@media (max-width: 850px) {
+    .titulo-cards {
+        font-size: 15px;
+    }
+
+    .logo-header {
+        width: 100px;
+        height: 50px;
+    }
+
+    .logo-headerG {
+        height: 50px;
+    }
+
+    .loaderGif {
+        width: 250px;
+        height: 250px;
+    }
+
+
+}
+
+
+
+/* // Medium devices (tablets, 768px and up) */
+
+@media (max-width: 800px) {}
+
+@media (max-width: 776px) {}
+
+
+@media (max-width: 726px) {}
+
+@media (max-width: 637px) {
+    .card {
+        width: 75%;
+    }
+
+    .titulo {
+        width: 65%;
+    }
+}
+
+
+
+@media (min-width: 600px) {}
+
+@media (max-width: 576px) {
+    .card {
+        width: 60%;
+    }
+
+    .icon_btn {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .titulo {
+        width: 50%;
+    }
+}
+
+@media (max-width: 450px) {}
+
+@media (max-width: 300px) {
+
+    .logo-header {
+        width: 50px;
+        height: 25px;
+    }
+
+    .logo-headerG {
+        height: 25px;
+    }
+}
+
+/* SCROLL PARA LA VISTA DE VER DEPENDENCIAS */
+
+.scroll-container {
+    max-height: 400px; /* Puedes ajustar esta altura según tu necesidad */
+    overflow-y: auto; /* Agrega desplazamiento vertical */
+    padding-right: 15px; /* Espacio adicional para evitar el recorte por el scroll */
+    border: 1px solid #ddd; /* Opcional: borde para distinguir el contenedor */
+}
+
+
