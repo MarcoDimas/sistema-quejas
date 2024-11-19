@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="container" style="margin-top: -35px;">
+    <div class="container" style="margin-top: -50px;">
         <!-- Título del Formulario -->
         <div class="titulo mt-2 text-big text-semibold Gibson Medium" 
             style="
@@ -43,17 +43,35 @@
         @endif
 
         <!-- Tarjeta del formulario -->
-        <div class="card shadow-sm" style="margin-top: 25px;">
+        <div class="card shadow-sm" style="margin-top: 10px;"> 
             <div class="card-body">
+
                 <!-- Formulario para Crear una Nueva Queja -->
-                <form action="{{ route('quejas.store') }}" method="POST">
+                <form action="{{ route('quejas.store') }}" method="POST" class="scroll-container"  style="margin-top: 6px;">
                     @csrf
 
+
                     <div class="mb-3">
-                        <label for="titulo" class="form-label">
-                            <i class="bi bi-pencil me-2"></i> Título de la Queja
+                        <label for="nombre" class="form-label">
+                            <i class="bi bi-person-fill-exclamation"></i>  Nombre completo
                         </label>
-                        <input type="text" id="titulo" name="titulo" class="form-control" required>
+                        <input type="text" id="nombre" name="nombre" class="form-control" required>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                        <i class="bi bi-envelope-at"></i>  Email
+                        </label>
+                        <input type="text" id="email" name="email" class="form-control" required>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">
+                        <i class="bi bi-pencil me-2"></i> Motivo
+                        </label>
+                        <input type="text" id="motivo" name="motivo" class="form-control" required>
                     </div>
 
                     <div class="mb-3">

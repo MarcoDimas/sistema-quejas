@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citas</title>
+    <title>BuzonQuejas</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link href="{{ asset('css/Stylos.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                                 </li>
                             </ul>
             
-                </lix>
+                </li>
 
                 <li class="nav-item dropdown">
                  
@@ -77,8 +77,41 @@
                             </ul>
             
                 </li>
+
+
+                <li class="nav-item dropdown">
+                 
+                 <a class="nav-link dropdown-toggle custom-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                             <i class="bi bi-file-earmark-text me-2"></i>Reportar Queja
+                         </a>
+                         <ul class="dropdown-menu custom-dropdown-menu" id="sssubMenu">
+                             <li>
+                                 <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('quejas.create') }}">
+                                     <i class="bi bi-building me-2" style="font-size: 1.3rem;"></i>Reportar
+                                 </a>
+                             </li>
+                             <li>
+                                 <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('quejas.listaQuejas') }}">
+                                     <i class="bi bi-journal-text me-2" style="font-size: 1.3rem;"></i>Ver Quejas
+                                 </a>
+                             </li>
+                         </ul>
+         
+             </li>
+
                                                                      
             </ul>
+
+
+            <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mt-auto">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link btn "><i
+                                    class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</button>
+                        </form>
+                    </li>
+                </ul>
            
         </div>
         <div class="container-fluid pt-5 content">

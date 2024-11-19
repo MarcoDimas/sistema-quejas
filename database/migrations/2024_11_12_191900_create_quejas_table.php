@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('quejas', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
+            $table->string('nombre');
+            $table->string('email');
+            $table->string('motivo');
             $table->text('descripcion');
             $table->enum('estado', ['pendiente', 'en proceso', 'resuelta', 'rechazada'])->default('pendiente');
-            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->foreignId('dependencia_id')->constrained()->onDelete('cascade');
             $table->foreignId('area_id')->constrained()->onDelete('cascade');
             $table->timestamps();

@@ -10,7 +10,9 @@ class Queja extends Model
     use HasFactory;
 
     protected $fillable = [
-       'titulo',
+       'nombre',
+       'email',
+       'motivo',
        'descripcion',
        'estado',
        'usuario_id',
