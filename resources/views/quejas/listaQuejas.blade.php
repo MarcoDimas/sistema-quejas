@@ -58,7 +58,7 @@
 
                                     <p class="card-text">
                                     <strong>Area:</strong> 
-                                    {{ $queja->area ? $queja->area->nombre : 'Sin area asignada' }}
+                                    {{ $queja->area ? $queja->area->nombre : 'Sin área asignada' }}
                                     </p>
                                 </div>
                             </div>

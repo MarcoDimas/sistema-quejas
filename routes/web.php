@@ -7,7 +7,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\QuejaController;
 use App\Http\Controllers\RespuestaController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\UsuariosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +29,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
-
 // Menu principal
 Route::get('/menuPrincipal', [App\Http\Controllers\DependenciaController::class, 'verMenu'])->name('menuPrincipal')->middleware('auth');
 
+//usuarios
+Route::post('/AltaUsuarios', [UsuariosController::class, 'crearUsuario'])->name('usuarios.store')->middleware('auth');
+Route::get('usuarios/create', [UsuariosController::class, 'createUser'])->name('usuarios.create')->middleware('auth');
 
 // Rutas para Dependencias
 Route::get('/dependencias/create', [DependenciaController::class, 'mostrarFormularioCrear'])->name('dependencias.create')->middleware('auth');
@@ -50,8 +52,5 @@ Route::get('quejas/create', [QuejaController::class, 'create'])->name('quejas.cr
 Route::post('quejas', [QuejaController::class, 'store'])->name('quejas.store')->middleware('auth');
 Route::get('/Verquejas', [QuejaController::class, 'indexQuejas'])->name('quejas.listaQuejas')->middleware('auth');
 
-
-Route::resource('quejas', QuejaController::class);
-Route::resource('respuestas', RespuestaController::class);
 
 

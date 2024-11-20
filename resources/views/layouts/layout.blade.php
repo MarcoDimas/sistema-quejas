@@ -37,16 +37,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('menuPrincipal') }}"><i class="bi bi-house-door me-2"></i>Inicio</a>
                 </li>
-                
+                    
                 <li class="nav-item dropdown">
-                 
+                    
                     <a class="nav-link dropdown-toggle custom-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-file-earmark-text me-2"></i>Informe Dependecia
-                            </a>
+                           <i class="bi bi-person-bounding-box me-2"></i>Usuarios
+                       </a>
                             <ul class="dropdown-menu custom-dropdown-menu" id="sssubMenu">
                                 <li>
-                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('dependencias.create') }}">
-                                        <i class="bi bi-building me-2" style="font-size: 1.3rem;"></i>Alta dependencia
+                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('usuarios.create') }}">
+                                        <i class="bi bi-building me-2" style="font-size: 1.3rem;"></i>Alta Usuarios
                                     </a>
                                 </li>
                                 <li>
@@ -58,12 +58,31 @@
             
                 </li>
 
+
                 <li class="nav-item dropdown">
                  
                     <a class="nav-link dropdown-toggle custom-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-file-earmark-text me-2"></i>Informe Areas
+                                <i class="bi bi-file-earmark-text me-2"></i>Administración
                             </a>
                             <ul class="dropdown-menu custom-dropdown-menu" id="sssubMenu">
+
+                            @if (auth()->user()->id_roles == 1)
+
+                                <li>
+                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('dependencias.create') }}">
+                                        <i class="bi bi-building me-2" style="font-size: 1.3rem;"></i>Alta dependencia
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('dependencias.index') }}">
+                                        <i class="bi bi-journal-text me-2" style="font-size: 1.3rem;"></i>Ver Depedencias
+                                    </a>
+                                </li>
+                                
+                            @endif
+
+                            @if (auth()->user()->id_roles == 1  || auth()->user()->id_roles == 2)
+
                                 <li>
                                     <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('areas.create') }}">
                                         <i class="bi bi-building me-2" style="font-size: 1.3rem;"></i>Alta area
@@ -74,9 +93,14 @@
                                         <i class="bi bi-journal-text me-2" style="font-size: 1.3rem;"></i>Ver Areas
                                     </a>
                                 </li>
+
+                                @endif
+
                             </ul>
             
                 </li>
+
+               
 
 
                 <li class="nav-item dropdown">

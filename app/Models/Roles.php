@@ -15,4 +15,11 @@ class Roles extends Model
         'estatus'
     ];
 
+
+    public function usuarios(){
+        return $this->hasMany(User::class);
+
+    }
+
+
 }

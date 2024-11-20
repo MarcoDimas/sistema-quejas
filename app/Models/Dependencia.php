@@ -22,4 +22,8 @@ class Dependencia extends Model
         return $this->hasMany(Area::class, 'id_dependencia');
     }
     
+
+    public function quejas(){
+        return $this->hasMany(Queja::class);
+    }
 }

@@ -6,14 +6,27 @@ use Illuminate\Http\Request;
 use App\Models\Dependencia;
 use App\Models\Area;
 use App\Models\Queja;
-
+use Illuminate\Support\Facades\Auth;
 class QuejaController extends Controller
 {
 
     public function indexQuejas()
     {
-        $quejas = Queja::all();
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userRole = $user->id_roles;
+            $userDependencia = $user->id_dependencia;
+            // Si el usuario tiene rol 1, mostrar todos los registros
+            if ($userRole == 1) {
+
+        $quejas = Queja::with(['dependencia', 'area'])->get();
+            } else  {
+                $quejas = Queja::with(['dependencia', 'area'])->get()->where('dependencia.id', $userDependencia);
+
+            }
+
         return view('quejas.listaQuejas', compact('quejas'));
+    }
     }
 
 

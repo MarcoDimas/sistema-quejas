@@ -15,9 +15,10 @@ class Queja extends Model
        'motivo',
        'descripcion',
        'estado',
-       'usuario_id',
        'dependencia_id',
        'area_id',
+       'usuario_id',
+
     ];
 
 
@@ -31,7 +32,7 @@ class Queja extends Model
         return $this->belongsTo(Dependencia::class);
     }
 
-    public function areas()
+    public function area()
     {
         return $this->belongsTo(Area::class);
     }
