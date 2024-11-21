@@ -93,27 +93,17 @@
                 <img src="{{ $message->embed(public_path('imagenes/Sello Logo  Principal.png')) }}" alt="Sello Principal" style="width: 100px;">
                 <img src="{{ $message->embed(public_path('imagenes/200_mejor.png')) }}" alt="Logo 200 Años" style="width: 180px;">
             </div>
-            <h1>Respuesta a tu Queja</h1>
+            <h1>Estado de tu Queja</h1>
         </div>
 
         <!-- Important Info -->
         <div class="important-info">
-            <p><strong>Hola, tu queja ha sido respondida.</strong></p>
-            <p>Te compartimos los detalles de la respuesta:</p>
-        </div>
+            <p><strong>Hola, {{ $queja->nombre ?? 'Usuario' }}.</strong></p>
+            <p>Lamentamos informarte que tu queja con motivo: <strong>{{ $queja->motivo }}</strong> y con número de folio: <strong>{{ $queja->id }}</strong> ha sido rechazada por el encargado de esa área.</p>
+            <p><strong>Dependencia:</strong> {{ $queja->dependencia->nombre ?? 'Sin dependencia' }}</p>
+            <p><strong>Área:</strong> {{ $queja->area->nombre ?? 'Sin área' }}</p>
 
-        <!-- Details Section -->
-        <div class="details">
-            <h2>Detalles de la Respuesta:</h2>
-            <ul>
-                <li><strong>Respondido por:</strong> {{ $respondido_por }}</li>
-                <li><strong>Correo del encargado:</strong> {{ $correo_encargado }}</li>
-            </ul>
-        </div>
-        <div class="details">
-            <h2>Descripción:</h2>
-            <p>{{ $descripcion }}</p>
-        </div>
+       </div>      
 
         <!-- Footer -->
         <div class="footer">
@@ -123,3 +113,6 @@
     </div>
 </body>
 </html>
+
+
+

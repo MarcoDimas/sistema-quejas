@@ -37,7 +37,7 @@ class Queja extends Model
         return $this->belongsTo(Area::class);
     }
 
-    public function respuesta()
+    public function respuestas()
     {
         return $this->hasMany(Respuesta::class);
     }

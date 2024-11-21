@@ -8,6 +8,7 @@ use App\Http\Controllers\QuejaController;
 use App\Http\Controllers\RespuestaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsuariosController;
+use App\Models\Respuesta;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::get('/menuPrincipal', [App\Http\Controllers\DependenciaController::class,
 Route::post('/AltaUsuarios', [UsuariosController::class, 'crearUsuario'])->name('usuarios.store')->middleware('auth');
 Route::get('usuarios/create', [UsuariosController::class, 'createUser'])->name('usuarios.create')->middleware('auth');
 Route::get('/Verusuarios', [UsuariosController::class, 'indexUsuarios'])->name('usuarios.index')->middleware('auth');
+Route::put('/actualizar-password/{id}', [UsuariosController::class, 'actualizarPassword'])->name('actualizar.password');
+Route::put('/usuarios/{id}/desactivar', [UsuariosController::class, 'desactivar'])->name('usuarios.desactivar');
+Route::post('/usuarios/reactivar/{id}', [UsuariosController::class, 'reactivar'])->name('usuarios.reactivar');
 
 // Rutas para Dependencias
 Route::get('/dependencias/create', [DependenciaController::class, 'mostrarFormularioCrear'])->name('dependencias.create')->middleware('auth');
@@ -54,7 +58,7 @@ Route::post('quejas', [QuejaController::class, 'store'])->name('quejas.store');
 Route::get('/Verquejas', [QuejaController::class, 'indexQuejas'])->name('quejas.listaQuejas')->middleware('auth');
 Route::put('/quejas/{id}/estado', [QuejaController::class, 'updateStatus'])->name('quejas.updateStatus');
 Route::delete('/quejas/{id}/eliminar', [QuejaController::class, 'eliminarQueja'])->name('quejas.eliminarQueja');
-Route::post('/quejas/responder', [QuejaController::class, 'responder'])->name('quejas.responder');
+Route::post('/quejas/responder', [RespuestaController::class, 'responder'])->name('quejas.responder');
 
 
 

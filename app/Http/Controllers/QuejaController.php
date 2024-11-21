@@ -8,7 +8,7 @@ use App\Models\Area;
 use App\Models\Queja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-
+use App\Mail\QuejaRechazadaMail;
 class QuejaController extends Controller
 {
 
@@ -71,10 +71,18 @@ class QuejaController extends Controller
         $request->validate(['estado' => 'required|in:pendiente,en proceso,resuelta,rechazada']);
     
         // Buscar la queja por su ID
-        $queja = Queja::find($id);
+        $queja = Queja::with(['dependencia', 'area'])->find($id);
     
         if (!$queja) {
             return redirect()->back()->with('error', 'Queja no encontrada.');
+        }
+    
+        // Verificar si el estado cambia a rechazado
+        if ($request->estado === 'rechazada') {
+            // Enviar correo al usuario
+            if (!empty($queja->email)) {
+                Mail::to($queja->email)->send(new QuejaRechazadaMail($queja));
+            }
         }
     
         // Actualizar el estado de la queja
@@ -92,34 +100,6 @@ public function eliminarQueja($id)
         $queja->delete();
         return redirect()->route('quejas.listaQuejas')->with('success', 'Registro eliminado correctamente')->with('reload', true);
     }
-}
-
-public function responder(Request $request)
-{
-    $request->validate([
-        'respondido_por' => 'required|string',
-        'correo_encargado' => 'required|email',
-        'descripcion' => 'required|string',
-        'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:2048',
-    ]);
-
-    // Obtener los datos del formulario
-    $datos = $request->only('respondido_por', 'correo_encargado', 'descripcion', 'email');
-    $archivo = $request->file('archivo');
-
-    // Enviar correo
-    Mail::send('emails.respuestaQueja', $datos, function ($message) use ($datos, $archivo) {
-        $message->to($datos['email'])
-                ->subject('Respuesta a tu queja');
-        if ($archivo) {
-            $message->attach($archivo->getRealPath(), [
-                'as' => $archivo->getClientOriginalName(),
-                'mime' => $archivo->getClientMimeType(),
-            ]);
-        }
-    });
-
-    return redirect()->route('quejas.listaQuejas')->with('success', 'Respuesta enviada con éxito al correo electronico.')->with('reload', true);
 }
 
 }

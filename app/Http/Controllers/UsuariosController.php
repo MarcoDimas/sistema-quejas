@@ -75,4 +75,39 @@ class UsuariosController extends Controller
 
         return redirect()->route('usuarios.create')->with('success', 'Usuario creado exitosamente')->with('reload', true);
     }
+
+
+
+    public function actualizarPassword(Request $request, $id)
+{
+    $usuario = User::findOrFail($id);
+    $usuario->password = bcrypt($request->password);
+    $usuario->save();
+
+    return redirect()->route('usuarios.index')->with('success', 'Contraseña actualizada exitosamente.')->with('reload', true);
+}
+
+
+public function desactivar($id)
+{
+    $usuario = User::findOrFail($id);
+    $usuario->estatus = false; // Establecer estatus a false para desactivar el usuario
+    $usuario->save();
+
+    return redirect()->back()->with('success', 'Usuario desactivado exitosamente.')->with('reload', true);
+}
+public function reactivar($id)
+{
+    $usuario = User::find($id);
+    
+    if ($usuario) {
+        $usuario->estatus = 1; // Cambiar el estatus a activo
+        $usuario->save();
+
+        return redirect()->back()->with('success', 'Usuario reactivado con éxito.');
+    }
+
+    return redirect()->back()->with('error', 'Usuario no encontrado.');
+}
+
 }

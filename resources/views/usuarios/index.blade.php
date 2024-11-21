@@ -3,6 +3,27 @@
 @section('content')
 <div class="container" style="margin-top: -45px">
     <h1 class="text-center" style="color: #4A001F;">Gestión de Usuarios</h1>
+    @if(session('success'))
+        <div class="alert alert-success custom-alert-success" style="margin-top: 4px; background-color: #4caf50; color: #fff;">
+            <i class="bi bi-check-circle me-2"></i> <!-- Icono de palomita -->
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger custom-alert-error" style="margin-top: 4px; background-color: #f44336; color: #fff;">
+            <i class="bi bi-x-circle me-2"></i> <!-- Icono de tache -->
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if (session('reload'))
+        <script>
+            setTimeout(function() {
+                location.reload();
+            }, 1500); // Recarga después de 1.5 segundos
+        </script>
+    @endif
 
     <!-- Barra de búsqueda -->
     <div class="input-group mb-3">
@@ -35,10 +56,30 @@
                     </p>
                 </div>
                 <div class="card-footer py-1 d-flex justify-content-between">
-                    <button class="btn btn-primary btn-sm px-2">Editar</button>
-                    <button class="btn btn-warning btn-sm px-2">Desactivar</button>
+                    <!-- Botón para editar contraseña -->
+                    <button title="EDITAR PASSWORD" type="button" class="btn btn-primary btn-sm "
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editarPasswordModal{{ $usuario->id }}"
+                        @if (!$usuario->estatus) disabled @endif>
+                        <i class="bi bi-pencil fs-6"></i>
+                    </button>
+                    
+                    <!-- Botones de estado -->
+                    <form method="POST" action="{{ route('usuarios.desactivar', ['id' => $usuario->id]) }}" style="display:inline;">
+                        @csrf
+                        @method('PUT')
+                        <button  title="DESACTIVAR USUARIO" type="submit" class="btn btn-warning btn-sm px-2" @if($usuario->estatus == 0) disabled @endif>
+                        <i class="bi bi-arrow-down-square fs-6"></i>                   
+                         </button>
+                    </form>
+
                     @if ($usuario->estatus == 0)
-                        <button class="btn btn-success btn-sm px-2">Reactivar</button>
+                        <form method="POST" action="{{ route('usuarios.reactivar', ['id' => $usuario->id]) }}" style="display:inline;">
+                            @csrf
+                            <button title="REACTIVAR USUARIO" type="submit" class="btn btn-success btn-sm px-2">
+                            <i class="bi bi-arrow-up-square fs-6"></i>
+                            </button>
+                        </form>
                     @endif
                 </div>
             </div>
@@ -47,28 +88,35 @@
     </div>
 </div>
 
-<!-- Filtro Dinámico con JavaScript -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('searchInput');
-        const userCards = document.querySelectorAll('.user-card');
+<!-- Modal para editar contraseña -->
+@foreach ($usuarios as $usuario)
+<div class="modal fade" id="editarPasswordModal{{ $usuario->id }}" tabindex="-1" role="dialog" aria-labelledby="editarPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="editarPasswordModalLabel">
+                    <i class="bi bi-lock-fill"></i> Editar Contraseña
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('actualizar.password', ['id' => $usuario->id]) }}">
+                    @csrf
+                    @method('PUT')
 
-        searchInput.addEventListener('input', function () {
-            const query = searchInput.value.toLowerCase();
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label">Nueva Contraseña:</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control border-2 rounded-3" id="password-{{ $usuario->id }}" name="password" placeholder="Ingresa la nueva contraseña" autocomplete="new-password">
+                        </div>
+                    </div>
 
-            userCards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                const email = card.getAttribute('data-email');
-                const rol = card.getAttribute('data-rol');
-                const dependencia = card.getAttribute('data-dependencia');
+                    <button type="submit" class="btn btn-primary w-100 mt-3 rounded-3 py-2">Actualizar Contraseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
-                if (name.includes(query) || email.includes(query) || rol.includes(query) || dependencia.includes(query)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
 @endsection

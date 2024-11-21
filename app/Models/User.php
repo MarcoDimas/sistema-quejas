@@ -37,6 +37,10 @@ class User extends Authenticatable
         return $this->belongsTo(Dependencia::class, 'id_dependencia');
     }
 
+    public function respuestas(){
+        return $this->hasMany(Respuesta::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

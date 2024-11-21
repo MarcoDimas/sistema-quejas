@@ -27,8 +27,8 @@
     @endif
 
     <!-- Barra de búsqueda -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, email, depen., etc.">
+    <div id="noResultsMessage" style="display: none; text-align: center; color: #4A001F;">No se encontraron resultados.</div>
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, email, depen., etc.">
         <span class="input-group-text"><i class="bi bi-search  fs-6"></i></span>
     </div>
 
@@ -257,4 +257,32 @@
 
 </script>
 
+
+
+<script>
+   document.getElementById('searchInput').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll('.user-card');
+    let hasResults = false;
+
+    cards.forEach(card => {
+        const nombre = card.getAttribute('data-nombre');
+        const email = card.getAttribute('data-email');
+        const motivo = card.getAttribute('data-motivo');
+        const descripcion = card.getAttribute('data-descripcion');
+        const dependencia = card.getAttribute('data-dependencia');
+
+        const matches = nombre.includes(query) || email.includes(query) || motivo.includes(query) || descripcion.includes(query) || dependencia.includes(query);
+        card.style.display = matches ? '' : 'none';
+
+        if (matches) {
+            hasResults = true;
+        }
+    });
+
+    // Mostrar u ocultar el mensaje "No se encontraron resultados"
+    document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+});
+
+</script>
 @endsection
