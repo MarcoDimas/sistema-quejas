@@ -38,8 +38,9 @@
                                         <h5 class="card-title mb-0">{{ $area->nombre }}</h5>
                                     </div>
 
-                                    <p class="card-text">{{ $area->descripcion }}</p>
-                                    <p class="card-text">
+                                    <strong>Descripción:</strong> 
+                                    {{ $area->descripcion }}
+                                    </p>
 
                                     <strong>Dependencia:</strong> 
                                     {{ $area->dependencia ? $area->dependencia->nombre : 'Sin dependencia asignada' }}

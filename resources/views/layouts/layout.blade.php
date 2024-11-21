@@ -10,13 +10,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+    <!-- Agregar FontAwesome en el head -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+    <!-- jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
-    
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 </head>
 
 <body>
+
 <nav class="navbar justify-content-between shadow-sm bg-white boderBottom--Rosa position-static">
     <a class="navbar-brand" href="#">
         <img class="logo-header" src="{{ asset('imagenes/logoFinanzas.png') }}" alt="">
@@ -28,7 +44,7 @@
         <img class="logo-header" src="{{asset ("imagenes/200_mejor.png")}}" alt="" style="width: 220px; height: auto;">
     </a>
 </nav>
-
+  @if (auth()->check())
     <div class="container-fluid vh-100 d-flex">
         <div class="menuLateral pb-3 px-3">
             <br><br>
@@ -50,8 +66,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('dependencias.index') }}">
-                                        <i class="bi bi-journal-text me-2" style="font-size: 1.3rem;"></i>Ver Depedencias
+                                    <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('usuarios.index') }}">
+                                        <i class="bi bi-journal-text me-2" style="font-size: 1.3rem;"></i>Ver Usuarios
                                     </a>
                                 </li>
                             </ul>
@@ -66,7 +82,7 @@
                             </a>
                             <ul class="dropdown-menu custom-dropdown-menu" id="sssubMenu">
 
-                            @if (auth()->user()->id_roles == 1)
+                            @if (auth()->user()->id_roles == 1 )
 
                                 <li>
                                     <a class="dropdown-item custom-dropdown-item"  style="padding: 3px 12px;" href="{{ route('dependencias.create') }}">
@@ -142,6 +158,7 @@
             @yield('content')
         </div>
     </div>
+    @endif
 
 <div class="container-fluid pt-5 content">
     @yield('content')

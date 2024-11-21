@@ -6,9 +6,29 @@ use App\Models\Dependencia;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Roles;
-
+use Illuminate\Support\Facades\Auth;
 class UsuariosController extends Controller
 {
+
+
+    public function indexUsuarios()
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+        $userRole = $user->id_roles;
+        $userDependencia = $user->id_dependencia;
+
+        if ($userRole == 1) {
+            $usuarios = User::with('dependencia')->get();
+        } else {
+            $usuarios = User::with('dependencia')
+                ->where('id_dependencia', $userDependencia)
+                ->get();
+        }
+
+        return view('usuarios.index', compact('usuarios'));
+    }
+}
 
 
     public function createUser()

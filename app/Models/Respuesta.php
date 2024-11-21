@@ -10,8 +10,11 @@ class Respuesta extends Model
     use HasFactory;
 
     protected $fillable = [
-      'contenido',
+      'respondido_por',
+      'correo_encargado',
+      'descripcion',
+      'archivo',
       'queja_id',
-      'usuario_id'
+      'user_id'
     ];
 }
