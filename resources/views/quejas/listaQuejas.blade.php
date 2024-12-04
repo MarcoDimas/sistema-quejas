@@ -27,13 +27,16 @@
     @endif
 
     <!-- Barra de búsqueda -->
-    <div id="noResultsMessage" style="display: none; text-align: center; color: #4A001F;">No se encontraron resultados.</div>
+    <div class="input-group mb-3">
     <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, email, depen., etc.">
-        <span class="input-group-text"><i class="bi bi-search  fs-6"></i></span>
-    </div>
+    <span class="input-group-text">
+        <i class="bi bi-search fs-6"></i>
+    </span>
+</div>
+
 
     <!-- Contenedor de Tarjetas con Scroll -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3" 
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-1" 
          id="userCardsContainer" style="max-height: 355px; max-width: 1100px; overflow-y: auto;">
         @foreach ($quejas as $queja)
         <div class="col user-card" 

@@ -7,26 +7,38 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
+
 class UsuariosController extends Controller
 {
 
 
-    public function indexUsuarios()
+    public function indexUsuarios(Request $request)
 {
     if (Auth::check()) {
         $user = Auth::user();
         $userRole = $user->id_roles;
         $userDependencia = $user->id_dependencia;
 
+        $filtroDependencia = $request->input('dependencia_id');
+
+
+        
         if ($userRole == 1) {
-            $usuarios = User::with('dependencia')->get();
+            $query = User::query();
         } else {
-            $usuarios = User::with('dependencia')
-                ->where('id_dependencia', $userDependencia)
-                ->get();
+            $query = User::where('id_dependencia', $userDependencia);
+
+        }
+        if ($filtroDependencia) {
+            $query->where('id_dependencia', $filtroDependencia);
         }
 
-        return view('usuarios.index', compact('usuarios'));
+        $usuarios = $query->get();
+        $dependencias = Dependencia::all();
+
+
+        return view('usuarios.index', compact('usuarios', 'dependencias'));
     }
 }
 
@@ -104,7 +116,7 @@ public function reactivar($id)
         $usuario->estatus = 1; // Cambiar el estatus a activo
         $usuario->save();
 
-        return redirect()->back()->with('success', 'Usuario reactivado con éxito.');
+        return redirect()->back()->with('success', 'Usuario reactivado con éxito.')->with('reload', true);
     }
 
     return redirect()->back()->with('error', 'Usuario no encontrado.');

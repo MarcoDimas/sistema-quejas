@@ -26,14 +26,37 @@
     @endif
 
     <!-- Barra de búsqueda -->
+
     <div class="input-group mb-3">
         <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, email, rol, etc.">
         <span class="input-group-text"><i class="bi bi-search fs-6"></i></span>
     </div>
 
+    @if (auth()->user()->id_roles == 1)
+
+    <form method="GET" action="{{ route('usuarios.index') }}" class="d-flex align-items-end gap-2" style="margin-top:-13px">
+    <div class="form-group mb-0">
+        <label for="dependencia_id" class="sr-only">Selecciona Dependencia:</label>
+        <select name="dependencia_id" id="dependencia_id" class="form-control form-control-sm">
+            <option value="">Selecciona Dependencia</option>
+            @foreach($dependencias as $dependencia)
+                <option value="{{ $dependencia->id }}" 
+                    {{ request('dependencia_id') == $dependencia->id ? 'selected' : '' }}>
+                    {{ $dependencia->nombre }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+   
+
+    <button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+    <a href="{{ route('usuarios.index') }}" class="btn btn-sm btn-secondary">Todos los registros</a>
+</form>
+@endif
     <!-- Contenedor de Tarjetas con Scroll -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3" 
-         id="userCardsContainer" style="max-height: 355px; overflow-y: auto;">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 " 
+         id="userCardsContainer" style="max-height: 355px; overflow-y: auto; margin-top: 3px">
         @foreach ($usuarios as $usuario)
         <div class="col user-card" 
              data-name="{{ strtolower($usuario->name) }}" 
@@ -119,4 +142,30 @@
 </div>
 @endforeach
 
+
+<script>
+   document.getElementById('searchInput').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    const cards = document.querySelectorAll('.user-card');
+    let hasResults = false;
+
+    cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        const email = card.getAttribute('data-email');
+        const rol = card.getAttribute('data-rol');
+        const dependencia = card.getAttribute('data-dependencia');
+
+        const matches = name.includes(query) || email.includes(query) || rol.includes(query) || dependencia.includes(query);
+        card.style.display = matches ? '' : 'none';
+
+        if (matches) {
+            hasResults = true;
+        }
+    });
+
+    // Mostrar u ocultar el mensaje "No se encontraron resultados"
+    document.getElementById('noResultsMessage').style.display = hasResults ? 'none' : 'block';
+});
+
+</script>
 @endsection

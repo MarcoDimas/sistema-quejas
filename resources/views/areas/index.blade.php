@@ -18,6 +18,31 @@
                 AREAS
             </div>
 
+            <form method="GET" action="{{ route('areas.index') }}" class="d-flex align-items-end gap-2" style="margin-top:5px">
+    <div class="form-group mb-0">
+        <label for="dependencia_id" class="sr-only">Selecciona Dependencia:</label>
+        <select name="dependencia_id" id="dependencia_id" class="form-control form-control-sm">
+            <option value="">Selecciona Dependencia</option>
+            @foreach($dependencias as $dependencia)
+                <option value="{{ $dependencia->id }}" 
+                    {{ request('dependencia_id') == $dependencia->id ? 'selected' : '' }}>
+                    {{ $dependencia->nombre }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group mb-0">
+        <label for="area_id" class="sr-only">Selecciona Área:</label>
+        <select name="area_id" id="area_id" class="form-control form-control-sm" disabled>
+            <option value="">Selecciona Área</option>
+            <!-- Las áreas se cargarán dinámicamente aquí -->
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-sm btn-primary">Buscar</button>
+    <a href="{{ route('areas.index') }}" class="btn btn-sm btn-secondary">Todos los registros</a>
+</form>
 
         <!-- Mensaje si no hay area -->
         @if($areas->isEmpty())
@@ -61,5 +86,38 @@
             </div>
         @endif
     </div>
+
+
+
+    <script>
+        document.getElementById('dependencia_id').addEventListener('change', function () {
+    const dependenciaId = this.value;
+    const areaSelect = document.getElementById('area_id');
+
+    // Deshabilita el select de áreas mientras carga
+    areaSelect.disabled = true;
+    areaSelect.innerHTML = '<option value="">-- Cargando Áreas --</option>';
+
+    if (dependenciaId) {
+        fetch(`/areas/por-dependencia?dependencia_id=${dependenciaId}`)
+            .then(response => response.json())
+            .then(data => {
+                areaSelect.innerHTML = '<option value="">-- Seleccione un Área --</option>';
+                data.forEach(area => {
+                    areaSelect.innerHTML += `<option value="${area.id}">${area.nombre}</option>`;
+                });
+                areaSelect.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error al cargar las áreas:', error);
+                areaSelect.innerHTML = '<option value="">-- Error al cargar --</option>';
+            });
+    } else {
+        areaSelect.innerHTML = '<option value="">-- Seleccione una Dependencia --</option>';
+        areaSelect.disabled = true;
+    }
+});
+
+    </script>
 
 @endsection

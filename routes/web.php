@@ -45,12 +45,14 @@ Route::post('/usuarios/reactivar/{id}', [UsuariosController::class, 'reactivar']
 Route::get('/dependencias/create', [DependenciaController::class, 'mostrarFormularioCrear'])->name('dependencias.create')->middleware('auth');
 Route::post('/Altadependencias', [DependenciaController::class, 'crearDependencia'])->name('dependencias.store')->middleware('auth');
 Route::get('/Verdependencias', [DependenciaController::class, 'indexDependencia'])->name('dependencias.index')->middleware('auth');
+Route::get('/dependencias/search', [DependenciaController::class, 'searchDependencias'])->name('dependencias.search');
 
 // Rutas para Áreas
 Route::get('/areas/create', [AreaController::class, 'mostrarFormularioCrearArea'])->name('areas.create')->middleware('auth');
 Route::post('/Altaareas', [AreaController::class, 'crearArea'])->name('areas.store')->middleware('auth');
 Route::get('/Verareas', [AreaController::class, 'indexArea'])->name('areas.index')->middleware('auth');
 Route::get('/mostrarFor', [AreaController::class, 'mostrarFor'])->name('areas')->middleware('auth');
+Route::get('/areas/por-dependencia', [AreaController::class, 'obtenerAreasPorDependencia'])->name('areas.porDependencia');
 
 // Rutas para Quejas
 Route::get('quejas/create', [QuejaController::class, 'create'])->name('quejas.create');

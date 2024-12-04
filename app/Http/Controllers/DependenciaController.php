@@ -16,12 +16,34 @@ class DependenciaController extends Controller
         return view('menuPrincipal');
     }
 
+    public function searchDependencias(Request $request)
+{
+    $search = $request->input('search');
+    $dependencias = Dependencia::query()
+        ->where('nombre', 'like', "%$search%")
+        ->orWhere('descripcion', 'like', "%$search%")
+        ->get();
 
-    public function indexDependencia()
+    return response()->json($dependencias);
+}
+
+
+    public function indexDependencia(Request $request)
     {
-        $dependencias = Dependencia::all();
+        $search = $request->input('search');
+        $query = Dependencia::query();
+    
+        // Filtrar por término de búsqueda
+        if ($search) {
+            $query->where('nombre', 'like', "%$search%")
+                  ->orWhere('descripcion', 'like', "%$search%");
+        }
+    
+        $dependencias = $query->get();
+    
         return view('dependencias.index', compact('dependencias'));
     }
+    
 
     public function mostrarFormularioCrear()
     {
