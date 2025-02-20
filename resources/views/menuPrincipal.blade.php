@@ -78,7 +78,7 @@
 <body>
     <div class="container">
         <div class="titulo">
-            <h1>PLATAFORMA DE BUZÓN DE QUEJAS</h1>
+            <h1>GESTOR DE QUEJAS</h1>
         </div>
         <div class="titulo2">
             <p>Esta plataforma innovadora facilita la gestión de quejas por parte del ciudadano.</p>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->foreignId('dependencia_id')->constrained()->onDelete('cascade');
             $table->foreignId('area_id')->constrained()->onDelete('cascade');
+            $table->string('archivo')->nullable();
             $table->timestamps();
         });
     }

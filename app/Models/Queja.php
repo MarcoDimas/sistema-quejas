@@ -18,6 +18,7 @@ class Queja extends Model
        'dependencia_id',
        'area_id',
        'usuario_id',
+       'archivo',
 
     ];
 

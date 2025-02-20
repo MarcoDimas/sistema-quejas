@@ -22,24 +22,30 @@ class UsuariosController extends Controller
 
         $filtroDependencia = $request->input('dependencia_id');
 
-
-        
+        // Si el usuario tiene rol 1, puede ver a todos los usuarios
         if ($userRole == 1) {
             $query = User::query();
+        } elseif ($userRole == 3) {
+            // Si el usuario tiene rol 3, solo se ve a sí mismo
+            $query = User::where('id', $user->id);
         } else {
-            $query = User::where('id_dependencia', $userDependencia);
-
+            // Usuarios que NO son rol 1, ven su dependencia, excluyendo rol 1
+            $query = User::where('id_dependencia', $userDependencia)
+                         ->where('id_roles', '!=', 1);
         }
-        if ($filtroDependencia) {
+
+        // Aplicar filtro de dependencia si está presente y el usuario NO es rol 3
+        if ($filtroDependencia && $userRole != 3) {
             $query->where('id_dependencia', $filtroDependencia);
         }
 
         $usuarios = $query->get();
         $dependencias = Dependencia::all();
 
-
         return view('usuarios.index', compact('usuarios', 'dependencias'));
     }
+
+    return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
 }
 
 

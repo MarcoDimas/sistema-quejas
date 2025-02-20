@@ -47,7 +47,7 @@
             <div class="card-body">
 
                 <!-- Formulario para Crear una Nueva Queja -->
-                <form action="{{ route('quejas.store') }}" method="POST" class="scroll-container"  style="margin-top: 6px;">
+                <form action="{{ route('quejas.store') }}" method="POST" enctype="multipart/form-data" class="scroll-container"  style="margin-top: 6px;">
                     @csrf
 
 
@@ -65,20 +65,6 @@
                         </label>
                         <input type="text" id="email" name="email" class="form-control" required>
 
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="motivo" class="form-label">
-                        <i class="bi bi-pencil me-2"></i> Motivo
-                        </label>
-                        <input type="text" id="motivo" name="motivo" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">
-                            <i class="bi bi-chat-left-text me-2"></i> Descripción
-                        </label>
-                        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" required></textarea>
                     </div>
 
                     <div class="mb-3">
@@ -102,6 +88,26 @@
                         </select>
                     </div>
 
+
+                    <div class="mb-3">
+                        <label for="motivo" class="form-label">
+                        <i class="bi bi-pencil me-2"></i> Motivo
+                        </label>
+                        <input type="text" id="motivo" name="motivo" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">
+                            <i class="bi bi-chat-left-text me-2"></i> Descripción
+                        </label>
+                        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="archivo" class="form-label" style="color: #6A0F49;">Adjuntar archivo:</label>
+                        <input type="file" name="archivo" id="archivo" class="form-control">
+                    </div>
+                
                     <!-- Botón para enviar el formulario -->
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">

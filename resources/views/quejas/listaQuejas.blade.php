@@ -67,6 +67,8 @@
                 <!-- Botón "Ver" para abrir el Modal -->
                 <div class="card-footer py-1 d-flex justify-content-start gap-2">
                     <!-- Formulario para cambiar el estado -->
+                    @if (auth()->user()->id_roles == 1 || auth()->user()->id_roles == 2)
+
                     <form action="{{ route('quejas.updateStatus', $queja->id) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -89,6 +91,8 @@
                         @endif
                     </form>
 
+
+
                     <!-- Formulario para eliminar la queja -->
                     <form action="{{ route('quejas.eliminarQueja', $queja->id) }}" method="POST">
                         @csrf
@@ -98,9 +102,25 @@
                         </button>
                     </form>
 
-                    <button title="Ver esta queja" type="button" class="btn btn-info btn-sm px-2 py-1 rounded-pill shadow" data-bs-toggle="modal" data-bs-target="#quejaModal" data-nombre="{{ $queja->nombre }}" data-email="{{ $queja->email }}" data-dependencia="{{ $queja->dependencia->nombre ?? 'Sin dependencia' }}" data-motivo="{{ $queja->motivo }}" data-descripcion="{{ $queja->descripcion }}">
+                    @endif
+
+                    
+                    <button title="Ver esta queja" 
+                        type="button" 
+                        class="btn btn-info btn-sm px-2 py-1 rounded-pill shadow verQuejaBtn" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#quejaModal"
+                        data-nombre="{{ $queja->nombre }}"
+                        data-email="{{ $queja->email }}"
+                        data-dependencia="{{ $queja->dependencia->nombre ?? 'Sin dependencia' }}"
+                        data-motivo="{{ $queja->motivo }}"
+                        data-descripcion="{{ $queja->descripcion }}"
+                        data-archivo="{{ $queja->archivo ? asset('storage/' . $queja->archivo) : '' }}">
                         <i class="fas fa-eye me-1" style="font-size: 0.8rem;"></i>
                     </button>
+
+                    @if (auth()->user()->id_roles == 1 || auth()->user()->id_roles == 2)
+
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
                             data-bs-target="#respuestaModal" 
                             data-id="{{ $queja->id }}" 
@@ -108,6 +128,9 @@
                             title="Responde a esta queja">
                             <i class="bi bi-send-plus fs-6" ></i>
                     </button>
+
+                    @endif
+
 
 
                 </div>
@@ -153,7 +176,7 @@
                         </div>
 
                         <!-- Descripción -->
-                        <div class="col-12">
+                        <div class="col-12" style="margin-bottom: 20px;">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-body">
                                 <p class="mb-0"><strong>Motivo:</strong> <span id="modalMotivo"></span></p>
@@ -163,6 +186,20 @@
                                 </div>
                             </div>
                         </div>
+            
+
+                        <!-- Sección del archivo adjunto -->
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <p><strong>Archivo adjunto:</strong></p>
+                                <div id="archivoAdjunto">
+                                    <p class="text-muted">No se adjuntó ningún archivo.</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
@@ -236,7 +273,34 @@
         const dependencia = button.getAttribute('data-dependencia');
         const motivo = button.getAttribute('data-motivo');
         const descripcion = button.getAttribute('data-descripcion');
+        const archivo = button.getAttribute('data-archivo');
 
+        const archivoAdjunto = document.getElementById('archivoAdjunto');
+            if (archivo) {
+                // Detectar el tipo de archivo por la extensión
+                const extension = archivo.split('.').pop().toLowerCase();
+
+                let previewHtml = '';
+
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+                    // Vista previa de imágenes
+                    previewHtml = `
+                        <img src="${archivo}" alt="Vista previa" class="img-fluid rounded" style="max-width: 300px; display: block; margin-bottom: 10px;">
+                        <a href="${archivo}" target="_blank" class="btn btn-link">Ver o descargar archivo</a>`;
+                } else if (extension === 'pdf') {
+                    // Vista previa de PDF (iframe para mostrar el contenido)
+                    previewHtml = `
+                        <iframe src="${archivo}" width="100%" height="400px" style="border: none;"></iframe>
+                        <a href="${archivo}" target="_blank" class="btn btn-link">Ver en pantalla completa</a>`;
+                } else {
+                    // Otros tipos de archivos (docx, etc.)
+                    previewHtml = `<a href="${archivo}" target="_blank" class="btn btn-link">Descargar archivo</a>`;
+                }
+
+                archivoAdjunto.innerHTML = previewHtml;
+            } else {
+                archivoAdjunto.innerHTML = `<p class="text-muted">No se adjuntó ningún archivo.</p>`;
+            }
         // Asignar los valores al modal
         document.getElementById('modalNombre').textContent = nombre;
         document.getElementById('modalEmail').textContent = email;

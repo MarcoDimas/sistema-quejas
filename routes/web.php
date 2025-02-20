@@ -22,7 +22,7 @@ use App\Models\Respuesta;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // login
@@ -56,9 +56,9 @@ Route::get('/areas/por-dependencia', [AreaController::class, 'obtenerAreasPorDep
 
 // Rutas para Quejas
 Route::get('quejas/create', [QuejaController::class, 'create'])->name('quejas.create');
-Route::post('quejas', [QuejaController::class, 'store'])->name('quejas.store');
-Route::get('/Verquejas', [QuejaController::class, 'indexQuejas'])->name('quejas.listaQuejas')->middleware('auth');
-Route::put('/quejas/{id}/estado', [QuejaController::class, 'updateStatus'])->name('quejas.updateStatus');
+Route::post('quejas', [QuejaController::class, 'CrearQueja'])->name('quejas.store');
+Route::get('/Verquejas', [QuejaController::class, 'VerQuejas'])->name('quejas.listaQuejas')->middleware('auth');
+Route::put('/quejas/{id}/estado', [QuejaController::class, 'cambiarEstadoQueja'])->name('quejas.updateStatus');
 Route::delete('/quejas/{id}/eliminar', [QuejaController::class, 'eliminarQueja'])->name('quejas.eliminarQueja');
 Route::post('/quejas/responder', [RespuestaController::class, 'responder'])->name('quejas.responder');
 

@@ -14,7 +14,7 @@
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
             position: relative;
         ">
-        <i class="bi bi-person-plus-fill me-2" style="color: #800020; font-size: 1.4rem;"></i> <!-- Ícono moderno -->
+        <i class="bi bi-person-plus-fill me-2" style="color: #800020; font-size: 1.4rem;"></i> 
         Crear Usuario
     </div>
 

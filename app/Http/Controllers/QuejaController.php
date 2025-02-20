@@ -9,27 +9,38 @@ use App\Models\Queja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\QuejaRechazadaMail;
+use Illuminate\Support\Facades\Log;
 class QuejaController extends Controller
 {
 
-    public function indexQuejas()
+    public function VerQuejas()
     {
         if (Auth::check()) {
             $user = Auth::user();
             $userRole = $user->id_roles;
             $userDependencia = $user->id_dependencia;
-            // Si el usuario tiene rol 1, mostrar todos los registros
+    
             if ($userRole == 1) {
-
-        $quejas = Queja::with(['dependencia', 'area'])->get();
-            } else  {
-                $quejas = Queja::with(['dependencia', 'area'])->get()->where('dependencia.id', $userDependencia);
-
+                // Si el usuario tiene rol 1, mostrar todos los registros con sus relaciones
+                $quejas = Queja::with(['dependencia', 'area'])->get();
+            } elseif ($userRole == 3) {
+                // Si el usuario tiene rol 3, mostrar solo las quejas que él creó
+                $quejas = Queja::with(['dependencia', 'area'])
+                    ->where('usuario_id', $user->id)
+                    ->get();
+            } else {
+                // Para otros roles, mostrar las quejas de su dependencia
+                $quejas = Queja::with(['dependencia', 'area'])
+                    ->where('dependencia_id', $userDependencia)
+                    ->get();
             }
-
-        return view('quejas.listaQuejas', compact('quejas'));
+    
+            return view('quejas.listaQuejas', compact('quejas'));
+        }
+    
+        return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
     }
-    }
+    
 
 
     public function create()
@@ -38,34 +49,57 @@ class QuejaController extends Controller
         return view('quejas.create', compact('dependencias'));
     }
 
-    public function store(Request $request)
+    public function CrearQueja(Request $request)
     {
+        // Validación de los datos
         $request->validate([
             'nombre' => 'required|string|max:500',
-            'email' =>  'required|email|regex:/^.+@.+\..+$/i',
+            'email' => 'required|email|regex:/^.+@.+\..+$/i',
             'motivo' => 'required|string|max:255',
             'descripcion' => 'required|string',
             'dependencia_id' => 'required|exists:dependencias,id',
             'area_id' => 'required|exists:areas,id',
+            'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:5048', // Archivos permitidos
         ]);
-       
+    
+        try {
+            $archivoPath = null;
+    
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivoPath = $archivo->store('quejas_archivos', 'public');
+            }
+    
+            $queja = new Queja();
+            $queja->nombre = $request->input('nombre');
+            $queja->email = $request->input('email');
+            $queja->motivo = $request->input('motivo');
+            $queja->descripcion = $request->input('descripcion');
+            $queja->dependencia_id = $request->input('dependencia_id');
+            $queja->area_id = $request->input('area_id');
+            $queja->usuario_id = auth()->id() ?? 3; 
 
-        $queja = new Queja;
-        $queja->nombre = $request->input('nombre');
-        $queja->email = $request->input('email');
-        $queja->motivo = $request->input('motivo');
-        $queja->descripcion = $request->input('descripcion');
-        $queja->dependencia_id = $request->input('dependencia_id');
-        $queja->area_id = $request->input('area_id');
-        $queja->usuario_id = auth()->id() ?? 3; 
-        $queja->save();
-
-        return redirect()->route('quejas.create')->with('success', 'Queja enviada exitosamente')->with('reload', true);
+            if ($archivoPath) {
+                $queja->archivo = $archivoPath; 
+            }
+            
+            $queja->save();
+    
+            return redirect()->route('quejas.create')
+                ->with('success', 'Queja enviada exitosamente.')
+                ->with('reload', true);
+    
+        } catch (\Exception $e) {
+            Log::error('Error al guardar la queja: ' . $e->getMessage());
+            return redirect()->back()
+                ->withErrors(['error' => 'Ocurrió un problema al enviar la queja. Por favor, intenta nuevamente.'])
+                ->withInput();
+        }
     }
+    
 
 
-
-    public function updateStatus(Request $request, $id)
+    public function cambiarEstadoQueja(Request $request, $id)
     {
         // Validar que el estado esté en un valor válido
         $request->validate(['estado' => 'required|in:pendiente,en proceso,resuelta,rechazada']);
