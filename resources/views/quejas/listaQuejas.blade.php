@@ -27,12 +27,79 @@
     @endif
 
     <!-- Barra de búsqueda -->
-    <div class="input-group mb-3">
-    <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, email, depen., etc.">
-    <span class="input-group-text">
-        <i class="bi bi-search fs-6"></i>
-    </span>
-</div>
+    <form method="GET" action="{{ route('quejas.listaQuejas') }}">
+    <div class="row mb-4">
+        <!-- Filtro de Dependencia -->
+        @if (auth()->user()->id_roles == 1 || auth()->user()->id_roles == 2)
+
+        <div class="col-md-3">
+            <label for="dependencia_id" class="form-label">Dependencia:</label>
+            <select name="dependencia_id" id="dependencia_id" class="form-select" onchange="cargarAreas()">
+                <option value="">-- Todas las dependencias --</option>
+                @foreach($dependencias as $dependencia)
+                    <option value="{{ $dependencia->id }}" {{ request('dependencia_id') == $dependencia->id ? 'selected' : '' }}>
+                        {{ $dependencia->nombre }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Filtro de Área -->
+        <div class="col-md-3">
+            <label for="area_id" class="form-label">Área:</label>
+            <select name="area_id" id="area_id" class="form-select">
+                <option value="">-- Todas las áreas --</option>
+            </select>
+        </div>
+
+        @endif
+
+        <!-- Filtro de Estado -->
+        <div class="col-md-3">
+            <label for="estado" class="form-label">Estado:</label>
+            <select name="estado" id="estado" class="form-select">
+                <option value="">-- Todos los estados --</option>
+                @foreach($estados as $estado)
+                    <option value="{{ $estado }}" {{ request('estado') == $estado ? 'selected' : '' }}>
+                        {{ ucfirst($estado) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Botón de búsqueda -->
+        <div class="col-md-3 mt-4">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <a href="{{ route('quejas.listaQuejas') }}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </div>
+</form>
+
+<!-- Script para cargar áreas dinámicamente -->
+<script>
+    // Cargar áreas dinámicamente basado en la dependencia seleccionada
+    const dependencias = @json($dependencias);
+
+    function cargarAreas() {
+        const dependenciaId = document.getElementById('dependencia_id').value;
+        const areaSelect = document.getElementById('area_id');
+
+        // Limpiar opciones de áreas
+        areaSelect.innerHTML = '<option value="">-- Todas las áreas --</option>';
+
+        if (dependenciaId) {
+            // Buscar las áreas de la dependencia seleccionada
+            const areas = dependencias.find(dep => dep.id == dependenciaId)?.areas || [];
+            areas.forEach(area => {
+                const option = new Option(area.nombre, area.id);
+                areaSelect.add(option);
+            });
+        }
+    }
+
+    // Cargar áreas al iniciar si hay una dependencia seleccionada
+    window.onload = cargarAreas;
+</script>
 
 
     <!-- Contenedor de Tarjetas con Scroll -->

@@ -10,36 +10,68 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\QuejaRechazadaMail;
 use Illuminate\Support\Facades\Log;
+use App\Mail\QuejaEnProcesoMail;
+use App\Mail\QuejaResueltaMail;
+
 class QuejaController extends Controller
+
+
 {
 
-    public function VerQuejas()
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $userRole = $user->id_roles;
-            $userDependencia = $user->id_dependencia;
-    
-            if ($userRole == 1) {
-                // Si el usuario tiene rol 1, mostrar todos los registros con sus relaciones
-                $quejas = Queja::with(['dependencia', 'area'])->get();
-            } elseif ($userRole == 3) {
-                // Si el usuario tiene rol 3, mostrar solo las quejas que él creó
-                $quejas = Queja::with(['dependencia', 'area'])
-                    ->where('usuario_id', $user->id)
-                    ->get();
-            } else {
-                // Para otros roles, mostrar las quejas de su dependencia
-                $quejas = Queja::with(['dependencia', 'area'])
-                    ->where('dependencia_id', $userDependencia)
-                    ->get();
-            }
-    
-            return view('quejas.listaQuejas', compact('quejas'));
+    public function VerQuejas(Request $request)
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+        $userRole = $user->id_roles;
+        $userDependencia = $user->id_dependencia;
+
+        // Obtener los parámetros del filtro
+        $filtroDependencia = $request->input('dependencia_id');
+        $filtroArea = $request->input('area_id');
+        $filtroEstado = $request->input('estado');
+
+        // Construir la consulta base
+        $query = Queja::with(['dependencia', 'area']);
+
+        // Lógica de visibilidad según el rol
+        if ($userRole == 1) {
+            // Rol 1: Puede ver todas las quejas
+            $dependencias = Dependencia::with('areas')->get(); 
+        } elseif ($userRole == 3) {
+            // Rol 3: Solo puede ver sus propias quejas
+            $query->where('usuario_id', $user->id);
+            $dependencias = Dependencia::with('areas')->where('id', $userDependencia)->get();
+        } else {
+            // Otros roles: Solo ven quejas de su dependencia
+            $query->where('dependencia_id', $userDependencia);
+            $dependencias = Dependencia::with('areas')->where('id', $userDependencia)->get();
         }
-    
-        return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+
+        // Aplicar filtros de búsqueda
+        if ($filtroDependencia) {
+            $query->where('dependencia_id', $filtroDependencia);
+        }
+
+        if ($filtroArea) {
+            $query->where('area_id', $filtroArea);
+        }
+
+        if ($filtroEstado) {
+            $query->where('estado', $filtroEstado);
+        }
+
+        // Obtener las quejas filtradas
+        $quejas = $query->get();
+
+        // Opciones de estados
+        $estados = ['pendiente', 'en proceso', 'resuelta', 'rechazada'];
+
+        return view('quejas.listaQuejas', compact('quejas', 'dependencias', 'estados'));
     }
+
+    return redirect()->route('login')->with('error', 'Por favor, inicia sesión.');
+}
+
     
 
 
@@ -110,8 +142,20 @@ class QuejaController extends Controller
         if (!$queja) {
             return redirect()->back()->with('error', 'Queja no encontrada.');
         }
-    
-        // Verificar si el estado cambia a rechazado
+     if ($request->estado === 'en proceso') {
+            // Enviar correo al usuario
+            if (!empty($queja->email)) {
+                Mail::to($queja->email)->send(new QuejaEnProcesoMail($queja));
+            }
+        }      
+       
+        if ($request->estado === 'resuelta') {
+            // Enviar correo al usuario
+            if (!empty($queja->email)) {
+                Mail::to($queja->email)->send(new QuejaResueltaMail($queja));
+            }
+        } 
+        
         if ($request->estado === 'rechazada') {
             // Enviar correo al usuario
             if (!empty($queja->email)) {
